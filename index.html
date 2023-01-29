@@ -1,16 +1,50 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>在线小笔记</title>
+    <style>
+        body {
+            background-image: url('./image/bg1.jpeg');
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+            height: 100vh;
+            margin: 0;
+        }
+        .end-class {
+            position: fixed;
+            bottom: 8%;
+            right: 0;
+        }
+        footer{
+            display: block;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 5%;
+            background: hsl(248deg 12% 87%);
+            overflow: hidden;
+            line-height: 4;
+        }
+        .footer-item {
+            display: inline-block;
+        }
+    </style>
 </head>
-<body>
-    
-    <p>
-        温馨提示：本网站设计开发中，敬请期待~
-    </p>
 
+<body>
+
+    <div class="end-class">
+        温馨提示：本网站设计开发中，敬请期待~
+    </div>
+    <footer>
+        <div class="footer-item">
+            <img src="./image//computer1.png" alt="" />
+        </div>
+    </footer>
 </body>
+
 </html>
