@@ -6,9 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>在线小笔记</title>
+    <!-- <script src="./time.js"></script> -->
     <style>
         body {
-            background-image: url('./image/bg1.jpeg');
+            background-image: url('./image/bg2.jpeg');
             background-repeat: no-repeat;
             background-size: 100% 100%;
             height: 100vh;
@@ -31,6 +32,21 @@
         }
         .footer-item {
             display: inline-block;
+            background: url("./image/computer1.png");
+            background-repeat: no-repeat;
+            width: 36px;
+            height: 30px;
+        }
+        .footer-item:hover {
+            display: inline-block;
+            background: url("./image/computer1-hover.png");
+            background-repeat: no-repeat;
+            cursor: pointer;
+        }
+        .margin-right0 {
+            position: absolute;
+            right: 0;
+            padding: 10px;
         }
     </style>
 </head>
@@ -42,9 +58,21 @@
     </div>
     <footer>
         <div class="footer-item">
-            <img src="./image//computer1.png" alt="" />
+            <!-- <img src="./image//computer1.png" alt="" /> -->
         </div>
+        <div id="timer" class="margin-right0"></div>
     </footer>
+
+
+    <script type="module">
+        import time from "./time.js";
+
+        time({
+            el:document.getElementById("timer")
+        })
+
+    </script>
+
 </body>
 
 </html>
