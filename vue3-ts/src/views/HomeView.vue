@@ -27,7 +27,6 @@ export default defineComponent({
     // let that = this;
     const goAbout = (): void => {
       
-      console.log(router, "===this");
       router.push("studyView");
     };
     return {

@@ -1,3 +1,5 @@
+import currentMonth from "./common/view/currentMonth/index.js"; //展示天
+
 export default function (options) {
   var el = options.el;
 
@@ -69,12 +71,15 @@ export default function (options) {
 
   //获取 年 月 日
 
-  var timeYear = function(){
+  var timeYear = function(el){
     var year = new Date().getFullYear(),
         month = new Date().getMonth() + 1,
         today = new Date().getDate();
-
+        if(el == "yearEl"){
         return year + "年" + month + "月" + today + "日 ";
+        }else {
+          return year + "年" + month + "月";
+        }
     
   }
 
@@ -96,7 +101,7 @@ export default function (options) {
   var yearEl = document.createElement("div");
   timeTitleEl.appendChild(yearEl);
 
-  yearEl.innerText = timeYear();
+  yearEl.innerText = timeYear("yearEl");
   yearEl.style.paddingLeft = "22px";
   yearEl.style.cursor = "pointer";
   yearEl.style.color = "#004275";
@@ -107,6 +112,74 @@ export default function (options) {
   yearEl.addEventListener("mouseleave",function(){
     yearEl.style.color = "#004275";
   })
+
+
+  var calendarEl = document.createElement("div");
+  dateEl.appendChild(calendarEl);
+
+  calendarEl.style.height = el.clientWidth * 25 * 0.55 + "px";
+
+  var calendarTitleEl = document.createElement("div");
+  calendarEl.appendChild(calendarTitleEl);
+
+  calendarTitleEl.style.height = el.clientWidth * 25 * 0.4 * 0.2 + "px";
+
+  calendarTitleEl.style.textAlign = "right";
+  calendarTitleEl.style.position = "relative";
+  calendarEl.style.borderBottom = "1px solid #aaaaaa";
+
+  var monthEl = document.createElement("div");
+  calendarTitleEl.appendChild(monthEl);
+
+  monthEl.style.position = "absolute";
+  monthEl.style.left = "0px";
+  monthEl.style.height = el.clientWidth * 25 * 0.4 * 0.2 + "px";
+  monthEl.style.lineHeight = el.clientWidth * 25 * 0.4 * 0.2 + "px";
+  monthEl.innerText = timeYear();
+  monthEl.style.paddingLeft = "23px";
+
+  var topEl = document.createElement("div");
+  calendarTitleEl.appendChild(topEl);
+  topEl.style.height = el.clientWidth * 25 * 0.4 * 0.2 + "px";
+  topEl.style.lineHeight = el.clientWidth * 25 * 0.4 * 0.2 + "px";
+  topEl.style.display = "inline-block";
+  topEl.style.width = el.clientWidth * 20 * 0.1 + "px";
+  topEl.style.textAlign = "center";
+  topEl.style.fontSize = el.clientWidth * 20 * 0.08 + "px";
+  topEl.style.fontWeight = 300;
+
+  topEl.innerText = "∧";
+
+  var bottomEl = document.createElement("div");
+  calendarTitleEl.appendChild(bottomEl);
+  bottomEl.style.height = el.clientWidth * 25 * 0.4 * 0.2 + "px";
+  bottomEl.style.lineHeight = el.clientWidth * 25 * 0.4 * 0.2 + "px";
+  bottomEl.style.display = "inline-block";
+  bottomEl.style.width = el.clientWidth * 20 * 0.1 + "px";
+  bottomEl.style.textAlign = "center";
+  bottomEl.style.fontSize = el.clientWidth * 20 * 0.08 + "px";
+  bottomEl.style.fontWeight = 300;
+
+  bottomEl.innerText = "∨";
+
+  //日历内容
+
+  var calendarContentEl = document.createElement("div");
+  calendarEl.appendChild(calendarContentEl);
+
+  calendarContentEl.style.height = el.clientWidth * 25 * 0.5 + "px";
+
+  var calcDay = function(year,month){
+    var year = year || new Date().getFullYear();
+    var month = month || new Date().getMonth();
+
+    currentMonth(calendarContentEl,el.clientWidth * 25 * 0.8,el.clientWidth * 20,year,month);
+
+  }
+
+  calcDay();
+  
+
 
   //在时间上添加点击事件 --加动画效果
 
