@@ -5,13 +5,13 @@
 
 function dateArray(year,month){
 
-
     //获得本月天数
     var days = calcDays(year,month + 1);
 
 
     //获取1号是周几 0-周日 ..., 6-周六
     var week = new Date(year + '-' + (month + 1) + '-01').getDay();
+
 
     //添加前置天数
 
@@ -35,7 +35,7 @@ function dateArray(year,month){
     var lastMonthDays = null;
 
     if(month == 0){
-        lastMonthDays = calcDays(year - 1, 12);
+        lastMonthDays = calcDays(year - 1, 11);
     } else {
         lastMonthDays = calcDays(year,month);
     }

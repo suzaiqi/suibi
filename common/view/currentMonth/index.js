@@ -1,6 +1,19 @@
 import {dateArray} from "../../lib/calendar/index.js";
 
+/**
+ * 创建日历图
+ * 
+ * @param {*} el -节点
+ * @param {*} height 高
+ * @param {*} width 宽
+ * @param {*} years 年
+ * @param {*} months 月
+ */
+
 export default function(el,height,width,years,months){
+
+    el.innerHTML = "";
+
     var weeks = ["日", "一", "二", "三", "四", "五", "六"];
 
     el.style.padding = "5px 20px 5px 20px";
@@ -31,11 +44,14 @@ export default function(el,height,width,years,months){
     }
 
 
+    
     var calcCurrentMonth = function(){
-       var year = years || new Date().getFullYear(),
-            month = months || new Date().getMonth();
+       var year = years,
+            month = months;
+
 
             var dayArray = dateArray(year, month);
+
 
 
             //前置日期
@@ -82,4 +98,6 @@ export default function(el,height,width,years,months){
     }
 
     calcCurrentMonth();
+
+
 }

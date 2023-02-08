@@ -6,6 +6,11 @@ export default function (options) {
   el.style.display = "inline-block";
   el.style.lineHeight = "normal";
 
+  //获取年月
+  var dates = new Date(),
+      year = new Date().getFullYear(),
+      month = new Date().getMonth();
+
   var hourEl = document.createElement("div");
   el.appendChild(hourEl);
 
@@ -162,7 +167,12 @@ export default function (options) {
 
   bottomEl.innerText = "∨";
 
+  
+
   //日历内容
+
+  var widthCli = 0;
+  var heightCli = 0;
 
   var calendarContentEl = document.createElement("div");
   calendarEl.appendChild(calendarContentEl);
@@ -172,12 +182,65 @@ export default function (options) {
   var calcDay = function(year,month){
     var year = year || new Date().getFullYear();
     var month = month || new Date().getMonth();
-
+    widthCli = el.clientWidth * 25 * 0.8;
+    heightCli = el.clientWidth * 20;
     currentMonth(calendarContentEl,el.clientWidth * 25 * 0.8,el.clientWidth * 20,year,month);
 
   }
 
   calcDay();
+
+  topEl.addEventListener("click",function(){  
+    calendarContentEl.innerHTML = "";
+    if(month - 1 < 0 ){
+      year = year - 1;
+      month = 11;
+    }else {
+      month = month -1;
+    }
+
+    monthEl.innerText = year + "年" + (month + 1) + "月";
+
+    currentMonth(calendarContentEl,widthCli,heightCli,year,month);
+  })
+
+  bottomEl.addEventListener("click",function(){
+    calendarContentEl.innerHTML = "";  
+    if(month + 1 > 11 ){
+      year = year + 1;
+      month = 0;
+      
+    }else {
+      month = month + 1;
+    }
+
+    monthEl.innerText = year + "年" + (month + 1) + "月";
+    currentMonth(calendarContentEl,widthCli,heightCli,year,month);
+  })
+
+
+  monthEl.addEventListener("click", function(){
+    calendarContentEl.innerHTML = "";
+    for(var i = 0; i < 12; i++){
+      var monthsEl = document.createElement("div");
+      calendarContentEl.appendChild(monthsEl);
+
+      monthsEl.style.display = "inline-block";
+      monthsEl.style.width = (widthCli - 40 -20) / 4 + "px";
+      monthsEl.style.height = (heightCli - 10) * 0.8 / 5 + "px";
+      monthsEl.innerText = i + 1 + "月";
+      monthsEl.style.textAlign = "center";
+      monthEl.innerText = year + "年";
+      monthsEl.style.lineHeight = (heightCli - 10) * 0.8 / 5 + "px";
+      if(i == month){
+        monthsEl.style.backgroundColor = "#00b2ff";
+      }
+    }
+  })
+
+  // calendarContentEl.addEventListener("mousemove", function(){
+  //   monthsEl.style.outline = "1px solid #fff";
+  // })
   
 
 
