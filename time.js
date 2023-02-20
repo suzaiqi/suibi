@@ -9,6 +9,7 @@ export default function (options) {
   //获取年月
   var dates = new Date(),
       year = new Date().getFullYear(),
+      startYearChange = "",
       month = new Date().getMonth();
 
   var hourEl = document.createElement("div");
@@ -142,6 +143,7 @@ export default function (options) {
   monthEl.style.lineHeight = el.clientWidth * 25 * 0.4 * 0.2 + "px";
   monthEl.innerText = timeYear();
   monthEl.style.paddingLeft = "23px";
+  monthEl.style.userSelect = "none";
 
   var topEl = document.createElement("div");
   calendarTitleEl.appendChild(topEl);
@@ -152,6 +154,7 @@ export default function (options) {
   topEl.style.textAlign = "center";
   topEl.style.fontSize = el.clientWidth * 20 * 0.08 + "px";
   topEl.style.fontWeight = 300;
+  topEl.style.userSelect = "none";
 
   topEl.innerText = "∧";
 
@@ -164,6 +167,7 @@ export default function (options) {
   bottomEl.style.textAlign = "center";
   bottomEl.style.fontSize = el.clientWidth * 20 * 0.08 + "px";
   bottomEl.style.fontWeight = 300;
+  bottomEl.style.userSelect = "none";
 
   bottomEl.innerText = "∨";
 
@@ -190,37 +194,77 @@ export default function (options) {
 
   calcDay();
 
+  //判断 day--日期，点击刷新的是每个月，month--月，点击刷新的是年，year--点击刷新的是16年
+  var yearFlag = "day";
+
   topEl.addEventListener("click",function(){  
-    calendarContentEl.innerHTML = "";
-    if(month - 1 < 0 ){
-      year = year - 1;
-      month = 11;
-    }else {
-      month = month -1;
-    }
+    if(yearFlag == "day"){
+      calendarContentEl.innerHTML = "";
+      if(month - 1 < 0 ){
+        year = year - 1;
+        month = 11;
+      }else {
+        month = month -1;
+      }
 
     monthEl.innerText = year + "年" + (month + 1) + "月";
-
     currentMonth(calendarContentEl,widthCli,heightCli,year,month);
+    } else if(yearFlag == "month"){
+      year = year -1;
+      monthEl.innerText = year + "年";
+    } else if (yearFlag == "year") {
+      var yearString = '' + startYearChange;
+      var startYear = yearString.slice(0, -1) + "0";
+      var endYear = yearString.slice(0, -1) + "9";
+      monthEl.innerText = Number(startYear) - 10 + "年" + "~" + (Number(endYear) + 10) + "年";
+      calendarContentEl.innerHTML = '';
+      yearDiv(Number(startYear) - 10);
+    }
+
   })
 
   bottomEl.addEventListener("click",function(){
-    calendarContentEl.innerHTML = "";  
-    if(month + 1 > 11 ){
-      year = year + 1;
-      month = 0;
-      
-    }else {
-      month = month + 1;
-    }
+    if(yearFlag == "day"){
+      calendarContentEl.innerHTML = "";  
+      if(month + 1 > 11 ){
+        year = year + 1;
+        month = 0;
+        
+      }else {
+        month = month + 1;
+      }
 
-    monthEl.innerText = year + "年" + (month + 1) + "月";
-    currentMonth(calendarContentEl,widthCli,heightCli,year,month);
+      monthEl.innerText = year + "年" + (month + 1) + "月";
+      currentMonth(calendarContentEl,widthCli,heightCli,year,month);
+    }else if(yearFlag == "month"){
+      year = year + 1;
+      monthEl.innerText = year + "年"
+    } else if (yearFlag == "year") {
+      var yearString = '' + startYearChange;
+      var startYear = yearString.slice(0, -1) + "0";
+      var endYear = yearString.slice(0, -1) + "9";
+      monthEl.innerText = Number(startYear) + 10 + "年" + "~" + (Number(endYear) + 10) + "年";
+      calendarContentEl.innerHTML = '';
+      yearDiv(Number(startYear) + 10);
+
+    }
   })
 
 
   monthEl.addEventListener("click", function(){
+    if(yearFlag == "day"){
     calendarContentEl.innerHTML = "";
+    yearFlag = "month";
+    monthDiv();
+    }else if (yearFlag == "month"){
+      calendarContentEl.innerHTML = "";
+      yearFlag = "year";
+      yearDiv();
+    }
+    
+  })
+
+  var monthDiv = function(){
     for(var i = 0; i < 12; i++){
       var monthsEl = document.createElement("div");
       calendarContentEl.appendChild(monthsEl);
@@ -231,16 +275,60 @@ export default function (options) {
       monthsEl.innerText = i + 1 + "月";
       monthsEl.style.textAlign = "center";
       monthEl.innerText = year + "年";
+      monthsEl.value = i;
       monthsEl.style.lineHeight = (heightCli - 10) * 0.8 / 5 + "px";
       if(i == month){
         monthsEl.style.backgroundColor = "#00b2ff";
       }
+      monthsEl.addEventListener("click",function(event){
+        month = event.target.value;
+        calendarContentEl.innerHTML = "";
+        monthEl.innerText = year + "年" + (month + 1) + "月";
+        currentMonth(calendarContentEl,widthCli,heightCli,year,month);
+        yearFlag = "day";
+      })
     }
-  })
+  }
 
-  // calendarContentEl.addEventListener("mousemove", function(){
-  //   monthsEl.style.outline = "1px solid #fff";
-  // })
+  var yearDiv = function(yearId){
+
+    var yearString = yearId ? (yearId + '') : ('' + year);
+    var startYear = yearString.slice(0, -1) + "0";
+    var endYear = yearString.slice(0, -1) + "9";
+    startYearChange = startYear;
+
+
+    for(var i = 0; i < 12; i++){
+      var yearsItemEl = document.createElement("div");
+      calendarContentEl.appendChild(yearsItemEl);
+
+      yearsItemEl.style.display = "inline-block";
+      yearsItemEl.style.width = (widthCli - 40 -20) / 4 + "px";
+      yearsItemEl.style.height = (heightCli - 10) * 0.8 / 5 + "px";
+      yearsItemEl.innerText = Number(startYear) + i;
+      yearsItemEl.style.textAlign = "center";
+      monthEl.innerText = startYear + "年" + "~" + endYear + "年";
+      yearsItemEl.value = Number(startYear) + i;
+      yearsItemEl.style.lineHeight = (heightCli - 10) * 0.8 / 5 + "px";
+      if( Number(startYear) + i == year){
+        yearsItemEl.style.backgroundColor = "#00b2ff";
+      } else if (Number(startYear) + i > endYear) {
+        yearsItemEl.style.color = "rgb(170, 170, 170)";
+      }
+      yearsItemEl.addEventListener("click",function(event){
+
+        var years = event.target.value;
+        calendarContentEl.innerHTML = "";
+        monthEl.innerText = years + "年";
+        year = years;
+        yearFlag = "month";
+        monthDiv();
+      })
+    }
+
+  };
+
+
   
 
 

@@ -48,9 +48,10 @@ export default function(el,height,width,years,months){
     var calcCurrentMonth = function(){
        var year = years,
             month = months;
-
+            
 
             var dayArray = dateArray(year, month);
+
 
 
 
