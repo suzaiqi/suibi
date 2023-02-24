@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/suzaiqi/suibi#readme",
   "dependencies": {
-    "devby": "^0.1.0"
+    "devby": "^0.1.0",
+    "html2canvas": ">=1.4.1"
   }
 }
